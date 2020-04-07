@@ -38,7 +38,7 @@
                                     <th>Dirección</th>
                                     <th>Teléfono</th>
                                     <th>Email</th>
-                                    <th>Contacto</th>                                    
+                                    <th>Contacto</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -98,7 +98,7 @@
                                     <div class="col-md-9">
                                         <select v-model="tipo_documento" class="form-control">
                                             <option value="C.C">C.C</option>
-                                            <option value="T.I">T.I</option>
+                                            <option value="RUC">RUC</option>
                                             <option value="PASS">PASS</option>
                                         </select>                                    
                                     </div>
@@ -130,15 +130,16 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="email-input">Contacto</label>
                                     <div class="col-md-9">
-                                        <input type="email" v-model="contacto" class="form-control" placeholder="Nombre Del Contacto">
+                                        <input type="text" v-model="contacto" class="form-control" placeholder="Nombre del contacto">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Telefono De Contacto</label>
+                                    <label class="col-md-3 form-control-label" for="email-input">Teléfono de contacto</label>
                                     <div class="col-md-9">
-                                        <input type="email" v-model="telefono_contacto" class="form-control" placeholder="Telefono del contacto">
+                                        <input type="text" v-model="telefono_contacto" class="form-control" placeholder="Teléfono del contacto">
                                     </div>
                                 </div>
+
                                 <div v-show="errorPersona" class="form-group row div-error">
                                     <div class="text-center text-error">
                                         <div v-for="error in errorMostrarMsjPersona" :key="error" v-text="error">
@@ -146,6 +147,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -257,8 +259,9 @@
                     'direccion' : this.direccion,
                     'telefono' : this.telefono,
                     'email' : this.email,
-                    'contacto' : this.contacto,
-                    'telefono_contacto' : this.telefono_contacto
+                    'contacto': this.contacto,
+                    'telefono_contacto': this.telefono_contacto
+
                 }).then(function (response) {
                     me.cerrarModal();
                     me.listarPersona(1,'','nombre');
@@ -280,8 +283,8 @@
                     'direccion' : this.direccion,
                     'telefono' : this.telefono,
                     'email' : this.email,
-                    'contacto' : this.contacto,
-                    'telefono_contacto' : this.telefono_contacto,
+                    'contacto': this.contacto,
+                    'telefono_contacto': this.telefono_contacto,
                     'id': this.persona_id
                 }).then(function (response) {
                     me.cerrarModal();
@@ -304,7 +307,7 @@
                 this.modal=0;
                 this.tituloModal='';
                 this.nombre='';
-                this.tipo_documento='C.C';
+                this.tipo_documento='RUC';
                 this.num_documento='';
                 this.direccion='';
                 this.telefono='';
@@ -324,7 +327,7 @@
                                 this.modal = 1;
                                 this.tituloModal = 'Registrar Proveedor';
                                 this.nombre= '';
-                                this.tipo_documento='C.C';
+                                this.tipo_documento='RUC';
                                 this.num_documento='';
                                 this.direccion='';
                                 this.telefono='';
@@ -347,8 +350,8 @@
                                 this.direccion = data['direccion'];
                                 this.telefono = data['telefono'];
                                 this.email = data['email'];
-                                this.contacto= data['contacto'];
-                                this.telefono_contacto= data['telefono_contacto'];
+                                this.contacto = data['contacto'];
+                                this.telefono_contacto = data['telefono_contacto'];
                                 break;
                             }
                         }

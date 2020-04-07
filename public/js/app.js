@@ -3230,6 +3230,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3368,7 +3370,7 @@ __webpack_require__.r(__webpack_exports__);
       this.modal = 0;
       this.tituloModal = '';
       this.nombre = '';
-      this.tipo_documento = 'C.C';
+      this.tipo_documento = 'RUC';
       this.num_documento = '';
       this.direccion = '';
       this.telefono = '';
@@ -3389,7 +3391,7 @@ __webpack_require__.r(__webpack_exports__);
                   this.modal = 1;
                   this.tituloModal = 'Registrar Proveedor';
                   this.nombre = '';
-                  this.tipo_documento = 'C.C';
+                  this.tipo_documento = 'RUC';
                   this.num_documento = '';
                   this.direccion = '';
                   this.telefono = '';
@@ -45996,8 +45998,8 @@ var render = function() {
                               _vm._v("C.C")
                             ]),
                             _vm._v(" "),
-                            _c("option", { attrs: { value: "T.I" } }, [
-                              _vm._v("T.I")
+                            _c("option", { attrs: { value: "RUC" } }, [
+                              _vm._v("RUC")
                             ]),
                             _vm._v(" "),
                             _c("option", { attrs: { value: "PASS" } }, [
@@ -46173,8 +46175,8 @@ var render = function() {
                           ],
                           staticClass: "form-control",
                           attrs: {
-                            type: "email",
-                            placeholder: "Nombre Del Contacto"
+                            type: "text",
+                            placeholder: "Nombre del contacto"
                           },
                           domProps: { value: _vm.contacto },
                           on: {
@@ -46196,7 +46198,7 @@ var render = function() {
                           staticClass: "col-md-3 form-control-label",
                           attrs: { for: "email-input" }
                         },
-                        [_vm._v("Telefono De Contacto")]
+                        [_vm._v("Teléfono de contacto")]
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
@@ -46211,8 +46213,8 @@ var render = function() {
                           ],
                           staticClass: "form-control",
                           attrs: {
-                            type: "email",
-                            placeholder: "Telefono del contacto"
+                            type: "text",
+                            placeholder: "Teléfono del contacto"
                           },
                           domProps: { value: _vm.telefono_contacto },
                           on: {
