@@ -22,10 +22,10 @@
       <cliente></cliente>
   </template>
   <template v-if="menu==7">
-      <h1 class="text-center">Contenido del menu 7</h1>
+      <user></user>
   </template>
   <template v-if="menu==8">
-      <h1 class="text-center">Contenido del menu 8</h1>
+      <rol></rol>
   </template>
   <template v-if="menu==9">
       <h1 class="text-center">Contenido del menu 9</h1>
