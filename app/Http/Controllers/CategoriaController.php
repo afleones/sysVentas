@@ -19,13 +19,15 @@ class CategoriaController extends Controller
 
         $buscar = $request->buscar;
         $criterio = $request->criterio;
-
+        
         if ($buscar==''){
-            $categorias = Categoria::orderBy('id', 'desc')->paginate(4);
-        }        
-        else{
-            $categorias = Categoria::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(4);
+            $categorias = Categoria::orderBy('id', 'desc')->paginate(3);
         }
+        else{
+            $categorias = Categoria::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(3);
+        }
+        
+
         return [
             'pagination' => [
                 'total'        => $categorias->total(),
@@ -37,14 +39,12 @@ class CategoriaController extends Controller
             ],
             'categorias' => $categorias
         ];
-    }  
-    
+    }
+
     public function selectCategoria(Request $request){
         if (!$request->ajax()) return redirect('/');
-
         $categorias = Categoria::where('condicion','=','1')
-        ->select('id','nombre')->orderBy('nombre','asc')->get();
-
+        ->select('id','nombre')->orderBy('nombre', 'asc')->get();
         return ['categorias' => $categorias];
     }
 
@@ -71,7 +71,7 @@ class CategoriaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
-     */ 
+     */
     public function update(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
@@ -96,5 +96,7 @@ class CategoriaController extends Controller
         $categoria = Categoria::findOrFail($request->id);
         $categoria->condicion = '1';
         $categoria->save();
-    }    
+    }
+
+    
 }

@@ -2,7 +2,7 @@
             <main class="main">
             <!-- Breadcrumb -->
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Escritorio</a></li>   
+                <li class="breadcrumb-item"><a href="/">Escritorio</a></li>
             </ol>
             <div class="container-fluid">
                 <!-- Ejemplo de tabla Listado -->
@@ -115,6 +115,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -130,6 +131,7 @@
             <!--Fin del modal-->
         </main>
 </template>
+
 <script>
     export default {
         data (){
@@ -188,7 +190,7 @@
         methods : {
             listarCategoria (page,buscar,criterio){
                 let me=this;
-                var url= '/categoria?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+                var url= '/categoria?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     me.arrayCategoria = respuesta.categorias.data;

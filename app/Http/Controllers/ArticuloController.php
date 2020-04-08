@@ -13,17 +13,20 @@ class ArticuloController extends Controller
 
         $buscar = $request->buscar;
         $criterio = $request->criterio;
-
+        
         if ($buscar==''){
-            $articulos = Articulo::join('categorias', 'articulos.idcategoria','=','categorias.id')
+            $articulos = Articulo::join('categorias','articulos.idcategoria','=','categorias.id')
             ->select('articulos.id','articulos.idcategoria','articulos.codigo','articulos.nombre','categorias.nombre as nombre_categoria','articulos.precio_venta','articulos.stock','articulos.descripcion','articulos.condicion')
-            ->orderBy('articulos.id', 'desc')->paginate(4);
-        }        
-        else{
-            $articulos = Articulo::join('categorias', 'articulos.idcategoria','=','categorias.id')
-            ->select('articulos.id','articulos.idcategoria','articulos.codigo','articulos.nombre','categorias.nombre as nombre_categoria','articulos.precio_venta','articulos.stock','articulos.descripcion','articulos.condicion')
-            ->where('articulos.'.$criterio, 'like', '%'. $buscar . '%')->orderBy('articulos.id', 'desc')->paginate(4);                                   
+            ->orderBy('articulos.id', 'desc')->paginate(3);
         }
+        else{
+            $articulos = Articulo::join('categorias','articulos.idcategoria','=','categorias.id')
+            ->select('articulos.id','articulos.idcategoria','articulos.codigo','articulos.nombre','categorias.nombre as nombre_categoria','articulos.precio_venta','articulos.stock','articulos.descripcion','articulos.condicion')
+            ->where('articulos.'.$criterio, 'like', '%'. $buscar . '%')
+            ->orderBy('articulos.id', 'desc')->paginate(3);
+        }
+        
+
         return [
             'pagination' => [
                 'total'        => $articulos->total(),
@@ -35,8 +38,8 @@ class ArticuloController extends Controller
             ],
             'articulos' => $articulos
         ];
-    } 
-
+    }
+    
     public function store(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
@@ -45,12 +48,11 @@ class ArticuloController extends Controller
         $articulo->codigo = $request->codigo;
         $articulo->nombre = $request->nombre;
         $articulo->precio_venta = $request->precio_venta;
-        $articulo->stock = $request->stock;        
-        $articulo->descripcion = $request->descripcion;        
+        $articulo->stock = $request->stock;
+        $articulo->descripcion = $request->descripcion;
         $articulo->condicion = '1';
         $articulo->save();
     }
-
     public function update(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
@@ -59,8 +61,8 @@ class ArticuloController extends Controller
         $articulo->codigo = $request->codigo;
         $articulo->nombre = $request->nombre;
         $articulo->precio_venta = $request->precio_venta;
-        $articulo->stock = $request->stock;        
-        $articulo->descripcion = $request->descripcion;        
+        $articulo->stock = $request->stock;
+        $articulo->descripcion = $request->descripcion;
         $articulo->condicion = '1';
         $articulo->save();
     }
@@ -79,5 +81,6 @@ class ArticuloController extends Controller
         $articulo = Articulo::findOrFail($request->id);
         $articulo->condicion = '1';
         $articulo->save();
-    }   
+    }
+
 }

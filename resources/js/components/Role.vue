@@ -18,26 +18,25 @@
                                       <option value="nombre">Nombre</option>
                                       <option value="descripcion">Descripción</option>
                                     </select>
-                                    <input type="text" v-model="buscar" @keyup.enter="listarRol(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
-                                    <button type="submit" @click="listarRol(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                                    <input type="text" v-model="buscar" @keyup.enter="listarRole(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
+                                    <button type="submit" @click="listarRole(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
                                 </div>
                             </div>
                         </div>
                         <table class="table table-bordered table-striped table-sm">
                             <thead>
-                                <tr>
+                                <tr>                                    
                                     <th>Nombre</th>
                                     <th>Descripción</th>
                                     <th>Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="rol in arrayRol" :key="rol.id">
-                                    
-                                    <td v-text="rol.nombre"></td>
-                                    <td v-text="rol.descripcion"></td>
+                                <tr v-for="role in arrayRole" :key="role.id">
+                                    <td v-text="role.nombre"></td>
+                                    <td v-text="role.descripcion"></td>
                                     <td>
-                                        <div v-if="rol.condicion">
+                                        <div v-if="role.condicion">
                                             <span class="badge badge-success">Activo</span>
                                         </div>
                                         <div v-else>
@@ -65,6 +64,9 @@
                 </div>
                 <!-- Fin ejemplo de tabla Listado -->
             </div>
+            <!--Inicio del modal agregar/actualizar-->
+            
+            <!--Fin del modal-->
         </main>
 </template>
 
@@ -72,10 +74,10 @@
     export default {
         data (){
             return {
-                rol_id: 0,
+                role_id: 0,
                 nombre : '',
                 descripcion : '',
-                arrayRol : [],
+                arrayRole : [],
                 modal : 0,
                 tituloModal : '',
                 tipoAccion : 0,
@@ -122,12 +124,12 @@
             }
         },
         methods : {
-            listarRol (page,buscar,criterio){
+            listarRole (page,buscar,criterio){
                 let me=this;
-                var url= '/rol?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
+                var url= '/role?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
-                    me.arrayRol = respuesta.roles.data;
+                    me.arrayRole = respuesta.roles.data;
                     me.pagination= respuesta.pagination;
                 })
                 .catch(function (error) {
@@ -139,11 +141,11 @@
                 //Actualiza la página actual
                 me.pagination.current_page = page;
                 //Envia la petición para visualizar la data de esa página
-                me.listarRol(page,buscar,criterio);
+                me.listarRole(page,buscar,criterio);
             }
         },
         mounted() {
-            this.listarRol(1,this.buscar,this.criterio);
+            this.listarRole(1,this.buscar,this.criterio);
         }
     }
 </script>

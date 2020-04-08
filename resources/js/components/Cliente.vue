@@ -57,7 +57,7 @@
                             </tbody>
                         </table>
                         <nav>
-                            <ul class="pagination">
+                            <ul class="pagination float-right">
                                 <li class="page-item" v-if="pagination.current_page > 1">
                                     <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page - 1,buscar,criterio)">Ant</a>
                                 </li>
@@ -95,8 +95,8 @@
                                     <label class="col-md-3 form-control-label" for="text-input">Tipo Documento</label>
                                     <div class="col-md-9">
                                         <select v-model="tipo_documento" class="form-control">
-                                            <option value="C.C">C.C</option>
-                                            <option value="T.I">T.I</option>
+                                            <option value="DNI">DNI</option>
+                                            <option value="RUC">RUC</option>
                                             <option value="PASS">PASS</option>
                                         </select>                                    
                                     </div>
@@ -132,6 +132,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -154,7 +155,7 @@
             return {
                 persona_id: 0,
                 nombre : '',
-                tipo_documento : 'C.C',
+                tipo_documento : 'DNI',
                 num_documento : '',
                 direccion : '',
                 telefono : '',
@@ -284,7 +285,7 @@
                 this.modal=0;
                 this.tituloModal='';
                 this.nombre='';
-                this.tipo_documento='C.C';
+                this.tipo_documento='DNI';
                 this.num_documento='';
                 this.direccion='';
                 this.telefono='';
@@ -302,7 +303,7 @@
                                 this.modal = 1;
                                 this.tituloModal = 'Registrar Cliente';
                                 this.nombre= '';
-                                this.tipo_documento='C.C';
+                                this.tipo_documento='DNI';
                                 this.num_documento='';
                                 this.direccion='';
                                 this.telefono='';

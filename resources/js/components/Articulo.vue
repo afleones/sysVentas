@@ -8,7 +8,7 @@
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i> Aticulos
+                        <i class="fa fa-align-justify"></i> Artículos
                         <button type="button" @click="abrirModal('articulo','registrar')" class="btn btn-secondary">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
@@ -30,9 +30,9 @@
                             <thead>
                                 <tr>
                                     <th>Opciones</th>
-                                    <th>Codigo</th>
+                                    <th>Código</th>
                                     <th>Nombre</th>
-                                    <th>Articulo</th>
+                                    <th>Categoría</th>
                                     <th>Precio Venta</th>
                                     <th>Stock</th>
                                     <th>Descripción</th>
@@ -69,9 +69,9 @@
                                         <div v-else>
                                             <span class="badge badge-danger">Desactivado</span>
                                         </div>
-
+                                        
                                     </td>
-                                </tr>
+                                </tr>                                
                             </tbody>
                         </table>
                         <nav>
@@ -103,41 +103,40 @@
                         </div>
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Categoria</label>
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Categoría</label>
                                     <div class="col-md-9">
                                         <select class="form-control" v-model="idcategoria">
-                                            <option value="0" desabled>Seleccione Categoria</option>
-                                            <option v-for="categoria in arrayCategoria" :key="categoria.id" :value="categoria.id" v-text="categoria.nombre" >
-                                            </option>
-                                        </select>
+                                            <option value="0" disabled>Seleccione</option>
+                                            <option v-for="categoria in arrayCategoria" :key="categoria.id" :value="categoria.id" v-text="categoria.nombre"></option>
+                                        </select>                                        
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Codigo</label>
+                                    <label class="col-md-3 form-control-label" for="text-input">Código</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="codigo" class="form-control" placeholder="Codigo De Barras">
-                                        <barcode :value="codigo" :options="{ format: 'EAN-13'}">
-                                            Generando Codigo de Barras..                                            
-                                        </barcode>
+                                        <input type="text" v-model="codigo" class="form-control" placeholder="Código de barras"> 
+                                        <barcode :value="codigo" :options="{ format: 'EAN-13' }">
+                                            Generando código de barras.    
+                                        </barcode>                                       
                                     </div>
                                 </div>
-                                 <div class="form-group row">
+                                <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="nombre" class="form-control" placeholder="Nombre De Articulo">
+                                        <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de artículo">                                        
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Precio Venata</label>
+                                    <label class="col-md-3 form-control-label" for="text-input">Precio Venta</label>
                                     <div class="col-md-9">
-                                        <input type="number" v-model="precio_venta" class="form-control" placeholder="">
+                                        <input type="number" v-model="precio_venta" class="form-control" placeholder="">                                        
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Stock</label>
                                     <div class="col-md-9">
-                                        <input type="number" v-model="stock" class="form-control" placeholder="">
+                                        <input type="number" v-model="stock" class="form-control" placeholder="">                                        
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -148,9 +147,12 @@
                                 </div>
                                 <div v-show="errorArticulo" class="form-group row div-error">
                                     <div class="text-center text-error">
-                                        <div v-for="error in errorMostrarMsjArticulo" :key="error" v-text="error"></div>
+                                        <div v-for="error in errorMostrarMsjArticulo" :key="error" v-text="error">
+
+                                        </div>
                                     </div>
                                 </div>
+
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -166,12 +168,13 @@
             <!--Fin del modal-->
         </main>
 </template>
+
 <script>
     import VueBarcode from 'vue-barcode';
     export default {
         data (){
             return {
-                articulo_id : 0,
+                articulo_id: 0,
                 idcategoria : 0,
                 nombre_categoria : '',
                 codigo : '',
@@ -196,12 +199,12 @@
                 offset : 3,
                 criterio : 'nombre',
                 buscar : '',
-                arrayCategoria : []
+                arrayCategoria :[]
             }
         },
         components: {
-            'barcode': VueBarcode
-        },
+        'barcode': VueBarcode
+    },
         computed:{
             isActived: function(){
                 return this.pagination.current_page;
@@ -211,30 +214,30 @@
                 if(!this.pagination.to) {
                     return [];
                 }
-
-                var from = this.pagination.current_page - this.offset;
+                
+                var from = this.pagination.current_page - this.offset; 
                 if(from < 1) {
                     from = 1;
                 }
 
-                var to = from + (this.offset * 2);
+                var to = from + (this.offset * 2); 
                 if(to >= this.pagination.last_page){
                     to = this.pagination.last_page;
-                }
+                }  
 
                 var pagesArray = [];
                 while(from <= to) {
                     pagesArray.push(from);
                     from++;
                 }
-                return pagesArray;
+                return pagesArray;             
 
             }
         },
         methods : {
             listarArticulo (page,buscar,criterio){
                 let me=this;
-                var url= '/articulo?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+                var url= '/articulo?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     me.arrayArticulo = respuesta.articulos.data;
@@ -247,9 +250,10 @@
             selectCategoria(){
                 let me=this;
                 var url= '/categoria/selectCategoria';
-                axios.get(url).then(function (response) {                                        
+                axios.get(url).then(function (response) {
+                    //console.log(response);
                     var respuesta= response.data;
-                    me.arrayCategoria = respuesta.categorias;                    
+                    me.arrayCategoria = respuesta.categorias;
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -266,15 +270,15 @@
                 if (this.validarArticulo()){
                     return;
                 }
-
+                
                 let me = this;
 
                 axios.post('/articulo/registrar',{
-                    'idcategoria' : this.idcategoria,
-                    'codigo' : this.codigo,
-                    'nombre' : this.nombre,
-                    'stock' : this.stock,
-                    'precio_venta' : this.precio_venta,
+                    'idcategoria': this.idcategoria,
+                    'codigo': this.codigo,
+                    'nombre': this.nombre,
+                    'stock': this.stock,
+                    'precio_venta': this.precio_venta,
                     'descripcion': this.descripcion
                 }).then(function (response) {
                     me.cerrarModal();
@@ -287,15 +291,15 @@
                if (this.validarArticulo()){
                     return;
                 }
-
+                
                 let me = this;
 
                 axios.put('/articulo/actualizar',{
-                    'idcategoria' : this.idcategoria,
-                    'codigo' : this.codigo,
-                    'nombre' : this.nombre,
-                    'stock' : this.stock,
-                    'precio_venta' : this.precio_venta,
+                    'idcategoria': this.idcategoria,
+                    'codigo': this.codigo,
+                    'nombre': this.nombre,
+                    'stock': this.stock,
+                    'precio_venta': this.precio_venta,
                     'descripcion': this.descripcion,
                     'id': this.articulo_id
                 }).then(function (response) {
@@ -303,11 +307,11 @@
                     me.listarArticulo(1,'','nombre');
                 }).catch(function (error) {
                     console.log(error);
-                });
+                }); 
             },
             desactivarArticulo(id){
                swal({
-                title: 'Esta seguro de desactivar este Articulo?',
+                title: 'Esta seguro de desactivar este artículo?',
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -334,19 +338,19 @@
                     }).catch(function (error) {
                         console.log(error);
                     });
-
-
+                    
+                    
                 } else if (
                     // Read more about handling dismissals
                     result.dismiss === swal.DismissReason.cancel
                 ) {
-
+                    
                 }
-                })
+                }) 
             },
             activarArticulo(id){
                swal({
-                title: 'Esta seguro de activar este Articulo?',
+                title: 'Esta seguro de activar este artículo?',
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -373,37 +377,40 @@
                     }).catch(function (error) {
                         console.log(error);
                     });
-
-
+                    
+                    
                 } else if (
                     // Read more about handling dismissals
                     result.dismiss === swal.DismissReason.cancel
                 ) {
-
+                    
                 }
-                })
+                }) 
             },
             validarArticulo(){
                 this.errorArticulo=0;
                 this.errorMostrarMsjArticulo =[];
-                if (this.idcategoria==0) this.errorMostrarMsjArticulo.push("Seleccione Una Categoria.");
-                if (!this.nombre) this.errorMostrarMsjArticulo.push("El nombre del articulo no puede estar vacío.");
-                if (!this.stock) this.errorMostrarMsjArticulo.push("El Stock del articulo debe se un numero y no puede estar vacio.");
-                if (!this.precio_venta) this.errorMostrarMsjArticulo.push("El Precio de venta del articulo debe se un numero y no puede estar vacio.");
+
+                if (this.idcategoria==0) this.errorMostrarMsjArticulo.push("Seleccione una categoría.");
+                if (!this.nombre) this.errorMostrarMsjArticulo.push("El nombre del artículo no puede estar vacío.");
+                if (!this.stock) this.errorMostrarMsjArticulo.push("El stock del artículo debe ser un número y no puede estar vacío.");
+                if (!this.precio_venta) this.errorMostrarMsjArticulo.push("El precio venta del artículo debe ser un número y no puede estar vacío.");
+
                 if (this.errorMostrarMsjArticulo.length) this.errorArticulo = 1;
+
                 return this.errorArticulo;
             },
             cerrarModal(){
-                this.modal= 0;
-                this.tituloModal= '';
+                this.modal=0;
+                this.tituloModal='';
                 this.idcategoria= 0;
-                this.nombre_categoria= '';
-                this.codigo= '';
-                this.nombre= '';
-                this.precio_venta= 0;
-                this.stock= 0;
-                this.descripcion= '';
-                this.errorArticulo= 0;
+                this.nombre_categoria = '';
+                this.codigo = '';
+                this.nombre = '';
+                this.precio_venta = 0;
+                this.stock = 0;
+                this.descripcion = '';
+		        this.errorArticulo=0;
             },
             abrirModal(modelo, accion, data = []){
                 switch(modelo){
@@ -412,15 +419,15 @@
                         switch(accion){
                             case 'registrar':
                             {
-                                this.modal= 1;
-                                this.tituloModal = 'Registrar Articulo';
-                                this.idcategoria= 0;
-                                this.nombre_categoria= '';
-                                this.codigo= '';
+                                this.modal = 1;
+                                this.tituloModal = 'Registrar Artículo';
+                                this.idcategoria=0;
+                                this.nombre_categoria='';
+                                this.codigo='';
                                 this.nombre= '';
-                                this.precio_venta= 0;
-                                this.stock= 0;
-                                this.descripcion= '';
+                                this.precio_venta=0;
+                                this.stock=0;
+                                this.descripcion = '';
                                 this.tipoAccion = 1;
                                 break;
                             }
@@ -428,14 +435,14 @@
                             {
                                 //console.log(data);
                                 this.modal=1;
-                                this.tituloModal='Actualizar Articulo';
+                                this.tituloModal='Actualizar Artículo';
                                 this.tipoAccion=2;
                                 this.articulo_id=data['id'];
-                                this.idcategoria = data['idcategoria'];
-                                this.codigo = data['codigo'];
+                                this.idcategoria=data['idcategoria'];
+                                this.codigo=data['codigo'];
                                 this.nombre = data['nombre'];
-                                this.stock = data['stock'];
-                                this.precio_venta = data['precio_venta'];
+                                this.stock=data['stock'];
+                                this.precio_venta=data['precio_venta'];
                                 this.descripcion= data['descripcion'];
                                 break;
                             }
@@ -450,7 +457,7 @@
         }
     }
 </script>
-<style>
+<style>    
     .modal-content{
         width: 100% !important;
         position: absolute !important;

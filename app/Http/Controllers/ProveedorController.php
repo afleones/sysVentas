@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
 use App\Proveedor;
 use App\Persona;
+
+
 class ProveedorController extends Controller
 {
     public function index(Request $request)
@@ -16,19 +19,21 @@ class ProveedorController extends Controller
         $criterio = $request->criterio;
         
         if ($buscar==''){
-            $personas = Proveedor::join('personas', 'proveedores.id', '=', 'personas.id')
+            $personas = Proveedor::join('personas','proveedores.id','=','personas.id')
             ->select('personas.id','personas.nombre','personas.tipo_documento',
             'personas.num_documento','personas.direccion','personas.telefono',
             'personas.email','proveedores.contacto','proveedores.telefono_contacto')
-            ->orderBy('personas.id', 'desc')->paginate(4);
+            ->orderBy('personas.id', 'desc')->paginate(3);
         }
         else{
-            $personas = Proveedor::join('personas', 'proveedores.id', '=', 'personas.id')
+            $personas = Proveedor::join('personas','proveedores.id','=','personas.id')
             ->select('personas.id','personas.nombre','personas.tipo_documento',
             'personas.num_documento','personas.direccion','personas.telefono',
-            'personas.email','proveedores.contacto','proveedores.telefono_contacto')                     
-            ->where('personas.'.$criterio, 'like', '%'. $buscar . '%')->orderBy('personas.id', 'desc')->paginate(4);
-        }        
+            'personas.email','proveedores.contacto','proveedores.telefono_contacto')            
+            ->where('personas.'.$criterio, 'like', '%'. $buscar . '%')
+            ->orderBy('personas.id', 'desc')->paginate(3);
+        }
+        
 
         return [
             'pagination' => [
@@ -46,7 +51,7 @@ class ProveedorController extends Controller
     public function store(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
-
+        
         try{
             DB::beginTransaction();
             $persona = new Persona();
@@ -66,34 +71,44 @@ class ProveedorController extends Controller
 
             DB::commit();
 
-        } catch ( Exception $e){
+        } catch (Exception $e){
             DB::rollBack();
-        }        
+        }
+
+        
+        
     }
 
     public function update(Request $request)
-    {    
+    {
         if (!$request->ajax()) return redirect('/');
-
+        
         try{
             DB::beginTransaction();
+
+            //Buscar primero el proveedor a modificar
             $proveedor = Proveedor::findOrFail($request->id);
-            $persona = Persona::findOrFail($proveedor->id);        
+
+            $persona = Persona::findOrFail($proveedor->id);
+
             $persona->nombre = $request->nombre;
             $persona->tipo_documento = $request->tipo_documento;
             $persona->num_documento = $request->num_documento;
             $persona->direccion = $request->direccion;
             $persona->telefono = $request->telefono;
             $persona->email = $request->email;
-            $persona->save();            
+            $persona->save();
+
+            
             $proveedor->contacto = $request->contacto;
-            $proveedor->telefono_contacto = $request->telefono_contacto;            
+            $proveedor->telefono_contacto = $request->telefono_contacto;
             $proveedor->save();
 
             DB::commit();
 
-        } catch ( Exception $e){
+        } catch (Exception $e){
             DB::rollBack();
         }
+
     }
 }
