@@ -3771,7 +3771,7 @@ __webpack_require__.r(__webpack_exports__);
         me.total = arrayIngresoT[0]['total'];
       })["catch"](function (error) {
         console.log(error);
-      }); //Obtener los datos de los detalles 
+      }); //Obtener los datos de los detalles
 
       var urld = '/ingreso/obtenerDetalles?id=' + id;
       axios.get(urld).then(function (response) {
