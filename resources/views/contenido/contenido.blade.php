@@ -16,7 +16,7 @@
             </template>
 
             <template v-if="menu==3">
-                <h1>Ingresos</h1>
+                <ingreso></ingreso>
             </template>
 
             <template v-if="menu==4">
@@ -40,7 +40,7 @@
             </template>
 
             <template v-if="menu==9">
-                <h1>Reporte ingresos</h1>
+                <ingreso></ingreso>
             </template>
 
             <template v-if="menu==10">
@@ -90,7 +90,7 @@
                 <proveedor></proveedor>
             </template>
             <template v-if="menu==9">
-                <h1>Reporte ingresos</h1>
+                <ingreso></ingreso>
             </template>
             <template v-if="menu==11">
                 <h1>Ayuda</h1>

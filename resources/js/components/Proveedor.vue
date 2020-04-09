@@ -1,5 +1,5 @@
 <template>
-            <main class="main">
+        <main class="main">
             <!-- Breadcrumb -->
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Escritorio</a></li>
@@ -139,7 +139,6 @@
                                         <input type="text" v-model="telefono_contacto" class="form-control" placeholder="Teléfono del contacto">
                                     </div>
                                 </div>
-
                                 <div v-show="errorPersona" class="form-group row div-error">
                                     <div class="text-center text-error">
                                         <div v-for="error in errorMostrarMsjPersona" :key="error" v-text="error">
@@ -147,7 +146,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </form>
                         </div>
                         <div class="modal-footer">

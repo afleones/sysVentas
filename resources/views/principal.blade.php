@@ -12,6 +12,17 @@
       <meta name="csrf-token" content="{{ csrf_token() }}">
       <!-- Icons -->
       <link href="css/plantilla.css" rel="stylesheet">
+
+      <!-- include VueJS first -->
+        <script src="https://unpkg.com/vue@latest"></script>
+
+        <!-- use the latest vue-select release -->
+        <script src="https://unpkg.com/vue-select@latest"></script>
+        <link rel="stylesheet" href="https://unpkg.com/vue-select@latest/dist/vue-select.css">
+
+        <!-- or point to a specific vue-select release -->
+        <script src="https://unpkg.com/vue-select@3.0.0"></script>
+        <link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css">
   </head>
   <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
       <div id="app">
