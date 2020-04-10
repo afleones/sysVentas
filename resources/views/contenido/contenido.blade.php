@@ -40,11 +40,11 @@
             </template>
 
             <template v-if="menu==9">
-                <ingreso></ingreso>
+                <consultaingreso></consultaingreso>
             </template>
 
             <template v-if="menu==10">
-                <h1>Reporte de ventas</h1>
+                <consultaventa></consultaventa>
             </template>
 
             <template v-if="menu==11">
@@ -63,7 +63,7 @@
                 <cliente></cliente>
             </template>
             <template v-if="menu==10">
-                <h1>Reporte de ventas</h1>
+                <consultaventa></consultaventa>
             </template>
 
             <template v-if="menu==11">
@@ -83,7 +83,7 @@
             </template>
 
             <template v-if="menu==3">
-                <h1>Ingresos</h1>
+                <consultaingreso></consultaingreso>
             </template>
 
             <template v-if="menu==4">
@@ -106,4 +106,10 @@
     @endif
        
         
+    @endsection
+    @section('footer')
+      <footer class="app-footer">
+          <span><a href="http://www.incanatoit.com/">Unidormate</a> &copy; 2020</span>
+          <span class="ml-auto">Desarrollado por <a href="#">JamesGiraldo</a></span>
+      </footer>
     @endsection

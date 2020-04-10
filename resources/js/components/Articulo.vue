@@ -72,9 +72,9 @@
                                         <div v-else>
                                             <span class="badge badge-danger">Desactivado</span>
                                         </div>
-                                        
+
                                     </td>
-                                </tr>                                
+                                </tr>
                             </tbody>
                         </table>
                         <nav>
@@ -112,34 +112,34 @@
                                         <select class="form-control" v-model="idcategoria">
                                             <option value="0" disabled>Seleccione</option>
                                             <option v-for="categoria in arrayCategoria" :key="categoria.id" :value="categoria.id" v-text="categoria.nombre"></option>
-                                        </select>                                        
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Código</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="codigo" class="form-control" placeholder="Código de barras"> 
+                                        <input type="text" v-model="codigo" class="form-control" placeholder="Código de barras">
                                         <barcode :value="codigo" :options="{ format: 'EAN-13' }">
-                                            Generando código de barras.    
-                                        </barcode>                                       
+                                            Generando código de barras.
+                                        </barcode>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de artículo">                                        
+                                        <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de artículo">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Precio Venta</label>
                                     <div class="col-md-9">
-                                        <input type="number" v-model="precio_venta" class="form-control" placeholder="">                                        
+                                        <input type="number" v-model="precio_venta" class="form-control" placeholder="">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Stock</label>
                                     <div class="col-md-9">
-                                        <input type="number" v-model="stock" class="form-control" placeholder="">                                        
+                                        <input type="number" v-model="stock" class="form-control" placeholder="">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -217,23 +217,23 @@
                 if(!this.pagination.to) {
                     return [];
                 }
-                
-                var from = this.pagination.current_page - this.offset; 
+
+                var from = this.pagination.current_page - this.offset;
                 if(from < 1) {
                     from = 1;
                 }
 
-                var to = from + (this.offset * 2); 
+                var to = from + (this.offset * 2);
                 if(to >= this.pagination.last_page){
                     to = this.pagination.last_page;
-                }  
+                }
 
                 var pagesArray = [];
                 while(from <= to) {
                     pagesArray.push(from);
                     from++;
                 }
-                return pagesArray;             
+                return pagesArray;
 
             }
         },
@@ -251,7 +251,7 @@
                 });
             },
             cargarPdf(){
-                window.open('http://localhost:8000/articulo/listarPdf','_blank');
+                window.open('http://127.0.0.1:8000/articulo/listarPdf','_blank');
             },
             selectCategoria(){
                 let me=this;
@@ -276,7 +276,7 @@
                 if (this.validarArticulo()){
                     return;
                 }
-                
+
                 let me = this;
 
                 axios.post('/articulo/registrar',{
@@ -297,7 +297,7 @@
                if (this.validarArticulo()){
                     return;
                 }
-                
+
                 let me = this;
 
                 axios.put('/articulo/actualizar',{
@@ -313,7 +313,7 @@
                     me.listarArticulo(1,'','nombre');
                 }).catch(function (error) {
                     console.log(error);
-                }); 
+                });
             },
             desactivarArticulo(id){
                swal({
@@ -344,15 +344,15 @@
                     }).catch(function (error) {
                         console.log(error);
                     });
-                    
-                    
+
+
                 } else if (
                     // Read more about handling dismissals
                     result.dismiss === swal.DismissReason.cancel
                 ) {
-                    
+
                 }
-                }) 
+                })
             },
             activarArticulo(id){
                swal({
@@ -383,15 +383,15 @@
                     }).catch(function (error) {
                         console.log(error);
                     });
-                    
-                    
+
+
                 } else if (
                     // Read more about handling dismissals
                     result.dismiss === swal.DismissReason.cancel
                 ) {
-                    
+
                 }
-                }) 
+                })
             },
             validarArticulo(){
                 this.errorArticulo=0;
@@ -463,7 +463,7 @@
         }
     }
 </script>
-<style>    
+<style>
     .modal-content{
         width: 100% !important;
         position: absolute !important;

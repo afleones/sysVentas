@@ -10,6 +10,8 @@ Vue.component('rol', require('./components/Rol.vue').default);
 Vue.component('user', require('./components/User.vue').default);
 Vue.component('ingreso', require('./components/Ingreso.vue').default);
 Vue.component('venta', require('./components/Venta.vue').default);
+Vue.component('consultaingreso', require('./components/ConsultaIngreso.vue').default);
+Vue.component('consultaventa', require('./components/ConsultaVenta.vue').default);
 const app = new Vue({
     el: '#app',
     data :{

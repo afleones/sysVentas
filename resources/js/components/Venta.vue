@@ -69,7 +69,7 @@
                                         <td v-text="venta.total"></td>
                                         <td v-text="venta.impuesto"></td>
                                         <td v-text="venta.estado"></td>
-                                    </tr>                                
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -101,7 +101,7 @@
                                         label="nombre"
                                         :options="arrayCliente"
                                         placeholder="Buscar Clientes..."
-                                        :onChange="getDatosCliente"                                        
+                                        :onChange="getDatosCliente"
                                     >
 
                                     </v-select>
@@ -151,7 +151,7 @@
                                         <input type="text" class="form-control" v-model="codigo" @keyup.enter="buscarArticulo()" placeholder="Ingrese artículo">
                                         <button @click="abrirModal()" class="btn btn-primary">...</button>
                                         <input type="text" readonly class="form-control" v-model="articulo">
-                                    </div>                                    
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -223,7 +223,7 @@
                                         <tr>
                                             <td class="text-center" colspan="6">NO HAY ARTICULOS AGREGADOS</td>
                                         </tr>
-                                    </tbody>                                    
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -308,14 +308,14 @@
                                                 NO HAY ARTICULOS AGREGADOS
                                             </td>
                                         </tr>
-                                    </tbody>                                    
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-12">
                                 <button type="button" @click="ocultarDetalle()" class="btn btn-secondary">Cerrar</button>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -380,9 +380,9 @@
                                                 <div v-else>
                                                     <span class="badge badge-danger">Desactivado</span>
                                                 </div>
-                                                
+
                                             </td>
-                                        </tr>                                
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -408,7 +408,7 @@
             return {
                 venta_id: 0,
                 idcliente:0,
-                cliente:'',  
+                cliente:'',
                 stock : 0,
                 tipo_comprobante : 'BOLETA',
                 serie_comprobante : '',
@@ -460,16 +460,16 @@
                 if(!this.pagination.to) {
                     return [];
                 }
-                
-                var from = this.pagination.current_page - this.offset; 
+
+                var from = this.pagination.current_page - this.offset;
                 if(from < 1) {
                     from = 1;
                 }
 
-                var to = from + (this.offset * 2); 
+                var to = from + (this.offset * 2);
                 if(to >= this.pagination.last_page){
                     to = this.pagination.last_page;
-                }  
+                }
 
                 var pagesArray = [];
                 while(from <= to) {
@@ -543,7 +543,7 @@
                 });
             },
             pdfVenta(id){
-                window.open('http://localhost:8000/venta/pdf/'+ id + ',' + '_blank');
+                window.open('http://127.0.0.1:8000/venta/pdf/'+ id + ',' + '_blank');
             },
             cambiarPagina(page,buscar,criterio){
                 let me = this;
@@ -597,12 +597,12 @@
                             me.idarticulo=0;
                             me.articulo="";
                             me.cantidad=0;
-                            me.precio=0; 
+                            me.precio=0;
                             me.descuento=0;
                             me.stock=0;
                        }
                     }
-                    
+
                 }
             },
             agregarDetalleModal(data =[]){
@@ -622,7 +622,7 @@
                             precio: data['precio_venta'],
                             descuento: 0,
                             stock:data['stock']
-                        }); 
+                        });
                     }
             },
             listarArticulo (buscar,criterio){
@@ -640,7 +640,7 @@
                 if (this.validarVenta()){
                     return;
                 }
-                
+
                 let me = this;
 
                 axios.post('/venta/registrar',{
@@ -691,7 +691,7 @@
                 if (!me.num_comprobante) me.errorMostrarMsjVenta.push("Ingrese el número de comprobante");
                 if (!me.impuesto) me.errorMostrarMsjVenta.push("Ingrese el impuesto de compra");
                 if (me.arrayDetalle.length<=0) me.errorMostrarMsjVenta.push("Ingrese detalles");
-                
+
 
                 if (me.errorMostrarMsjVenta.length) me.errorVenta = 1;
 
@@ -719,11 +719,11 @@
             verVenta(id){
                 let me=this;
                 me.listado=2;
-                
+
                 //Obtener los datos del ingreso
                 var arrayVentaT=[];
                 var url= '/venta/obtenerCabecera?id=' + id;
-                
+
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     arrayVentaT = respuesta.venta;
@@ -739,9 +739,9 @@
                     console.log(error);
                 });
 
-                //Obtener los datos de los detalles 
+                //Obtener los datos de los detalles
                 var urld= '/venta/obtenerDetalles?id=' + id;
-                
+
                 axios.get(urld).then(function (response) {
                     console.log(response);
                     var respuesta= response.data;
@@ -749,13 +749,13 @@
                 })
                 .catch(function (error) {
                     console.log(error);
-                });               
+                });
             },
             cerrarModal(){
                 this.modal=0;
                 this.tituloModal='';
-            }, 
-            abrirModal(){               
+            },
+            abrirModal(){
                 this.arrayArticulo=[];
                 this.modal = 1;
                 this.tituloModal = 'Seleccione uno o varios artículos';
@@ -789,15 +789,15 @@
                     }).catch(function (error) {
                         console.log(error);
                     });
-                    
-                    
+
+
                 } else if (
                     // Read more about handling dismissals
                     result.dismiss === swal.DismissReason.cancel
                 ) {
-                    
+
                 }
-                }) 
+                })
             },
         },
         mounted() {
@@ -805,7 +805,7 @@
         }
     }
 </script>
-<style>    
+<style>
     .modal-content{
         width: 100% !important;
         position: absolute !important;

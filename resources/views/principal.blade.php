@@ -23,7 +23,6 @@
         <!-- or point to a specific vue-select release -->
         <script src="https://unpkg.com/vue-select@3.0.0"></script>
         <link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css">
-        <link rel="stylesheet" href="https://cndjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js">
   </head>
   <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
       <div id="app">
@@ -95,11 +94,7 @@
           <!-- /Fin del contenido principal -->
       </div>
       </div>
-      <footer class="app-footer">
-          <span><a href="http://www.incanatoit.com/">IncanatoIT</a> &copy; 2017</span>
-          <span class="ml-auto">Desarrollado por <a href="http://www.incanatoit.com/">IncanatoIT</a></span>
-      </footer>
-
+          @yield('footer')     
       <script src="js/app.js"></script>
       <script src="js/plantilla.js"></script>
   </body>
