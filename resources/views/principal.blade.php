@@ -23,6 +23,7 @@
         <!-- or point to a specific vue-select release -->
         <script src="https://unpkg.com/vue-select@3.0.0"></script>
         <link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css">
+        <link rel="stylesheet" href="https://cndjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js">
   </head>
   <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
       <div id="app">
@@ -30,7 +31,7 @@
           <button class="navbar-toggler mobile-sidebar-toggler d-lg-none mr-auto" type="button">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <a class="navbar-brand" href="#"></a>
+          <img src="/img/logojames.jpeg" class="navbar-brand" href="#" alt="LOGO">
           <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button">
             <span class="navbar-toggler-icon"></span>
           </button>

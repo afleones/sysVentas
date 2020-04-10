@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Venta;
 use App\DetalleVenta;
+use App\User;
+use App\Notifications\NotifyAdmin;
 
 class VentaController extends Controller
 {
@@ -23,7 +25,7 @@ class VentaController extends Controller
             ->select('ventas.id','ventas.tipo_comprobante','ventas.serie_comprobante',
             'ventas.num_comprobante','ventas.fecha_hora','ventas.impuesto','ventas.total',
             'ventas.estado','personas.nombre','users.usuario')
-            ->orderBy('ventas.id', 'desc')->paginate(4);
+            ->orderBy('ventas.id', 'desc')->paginate(3);
         }
         else{
             $ventas = Venta::join('personas','ventas.idcliente','=','personas.id')
@@ -32,7 +34,7 @@ class VentaController extends Controller
             'ventas.num_comprobante','ventas.fecha_hora','ventas.impuesto','ventas.total',
             'ventas.estado','personas.nombre','users.usuario')
             ->where('ventas.'.$criterio, 'like', '%'. $buscar . '%')
-            ->orderBy('ventas.id', 'desc')->paginate(4);
+            ->orderBy('ventas.id', 'desc')->paginate(3);
         }
         
         return [
@@ -73,6 +75,28 @@ class VentaController extends Controller
         
         return ['detalles' => $detalles];
     }
+    public function pdf(Request $request,$id){
+        $venta = Venta::join('personas','ventas.idcliente','=','personas.id')
+        ->join('users','ventas.idusuario','=','users.id')
+        ->select('ventas.id','ventas.tipo_comprobante','ventas.serie_comprobante',
+        'ventas.num_comprobante','ventas.created_at','ventas.impuesto','ventas.total',
+        'ventas.estado','personas.nombre','personas.tipo_documento','personas.num_documento',
+        'personas.direccion','personas.email',
+        'personas.telefono','users.usuario')
+        ->where('ventas.id','=',$id)
+        ->orderBy('ventas.id', 'desc')->take(1)->get();
+
+        $detalles = DetalleVenta::join('articulos','detalle_ventas.idarticulo','=','articulos.id')
+        ->select('detalle_ventas.cantidad','detalle_ventas.precio','detalle_ventas.descuento',
+        'articulos.nombre as articulo')
+        ->where('detalle_ventas.idventa','=',$id)
+        ->orderBy('detalle_ventas.id', 'desc')->get();
+
+        $numventa=Venta::select('num_comprobante')->where('id',$id)->get();
+
+        $pdf = \PDF::loadView('pdf.venta',['venta'=>$venta,'detalles'=>$detalles]);
+        return $pdf->download('venta-'.$numventa[0]->num_comprobante.'.pdf');
+    }
 
     public function store(Request $request)
     {
@@ -100,16 +124,39 @@ class VentaController extends Controller
 
             foreach($detalles as $ep=>$det)
             {
-                $detalle = new DetalleIngreso();
+                $detalle = new DetalleVenta();
                 $detalle->idventa = $venta->id;
                 $detalle->idarticulo = $det['idarticulo'];
                 $detalle->cantidad = $det['cantidad'];
-                $detalle->precio = $det['precio'];       
-                $detalle->descuento = $det['descuento'];      
+                $detalle->precio = $det['precio'];
+                $detalle->descuento = $det['descuento'];         
                 $detalle->save();
             }          
 
+            $fechaActual= date('Y-m-d');
+            $numVentas = DB::table('ventas')->whereDate('created_at', $fechaActual)->count(); 
+            $numIngresos = DB::table('ingresos')->whereDate('created_at',$fechaActual)->count(); 
+
+            $arregloDatos = [ 
+            'ventas' => [ 
+                        'numero' => $numVentas, 
+                        'msj' => 'Ventas' 
+                    ], 
+            'ingresos' => [ 
+                        'numero' => $numIngresos, 
+                        'msj' => 'Ingresos' 
+                    ] 
+            ];                
+            $allUsers = User::all();
+
+            foreach ($allUsers as $notificar) { 
+                User::findOrFail($notificar->id)->notify(new NotifyAdmin($arregloDatos)); 
+            }
+
             DB::commit();
+            return [
+                'id' => $venta->id
+            ];
         } catch (Exception $e){
             DB::rollBack();
         }
