@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Ingreso;
 use App\DetalleIngreso;
+use App\User;
+use App\Articulo;
 
 class IngresoController extends Controller
 {
@@ -23,7 +25,7 @@ class IngresoController extends Controller
             ->select('ingresos.id','ingresos.tipo_comprobante','ingresos.serie_comprobante',
             'ingresos.num_comprobante','ingresos.fecha_hora','ingresos.impuesto','ingresos.total',
             'ingresos.estado','personas.nombre','users.usuario')
-            ->orderBy('ingresos.id', 'desc')->paginate(3);
+            ->orderBy('ingresos.id', 'desc')->paginate(10);
         }
         else{
             $ingresos = Ingreso::join('personas','ingresos.idproveedor','=','personas.id')
@@ -31,7 +33,7 @@ class IngresoController extends Controller
             ->select('ingresos.id','ingresos.tipo_comprobante','ingresos.serie_comprobante',
             'ingresos.num_comprobante','ingresos.fecha_hora','ingresos.impuesto','ingresos.total',
             'ingresos.estado','personas.nombre','users.usuario')
-            ->where('ingresos.'.$criterio, 'like', '%'. $buscar . '%')->orderBy('ingresos.id', 'desc')->paginate(3);
+            ->where('ingresos.'.$criterio, 'like', '%'. $buscar . '%')->orderBy('ingresos.id', 'desc')->paginate(10);
         }
         
         return [
@@ -64,14 +66,13 @@ class IngresoController extends Controller
         if (!$request->ajax()) return redirect('/');
 
         $id = $request->id;
-        $detalles = DetalleIngreso::join('articulos','detalle_ingresos.idarticulo','=','articulos.id')
-        ->select('detalle_ingresos.cantidad','detalle_ingresos.precio','articulos.nombre as articulo')
-        ->where('detalle_ingresos.idingreso','=',$id)
-        ->orderBy('detalle_ingresos.id', 'desc')->get();
+        $detalles = DetalleIngreso::join('articulos','destalle_ingresos.idarticulo','=','articulos.id')
+        ->select('destalle_ingresos.cantidad','destalle_ingresos.precio','articulos.nombre as articulo')
+        ->where('destalle_ingresos.idingreso','=',$id)
+        ->orderBy('destalle_ingresos.id', 'desc')->get();
         
         return ['detalles' => $detalles];
     }
-
     public function store(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
@@ -110,8 +111,8 @@ class IngresoController extends Controller
         } catch (Exception $e){
             DB::rollBack();
         }
+    
     }
-
     public function desactivar(Request $request)
     {
         if (!$request->ajax()) return redirect('/');

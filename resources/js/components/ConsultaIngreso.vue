@@ -150,7 +150,7 @@
                                     <tbody v-else>
                                         <tr>
                                             <td class="text-center" colspan="4">
-                                                NO HAY ARTICULOS AGREGADOS
+                                                <h2>NO HAY ARTICULOS AGREGADOS</h2>
                                             </td>
                                         </tr>
                                     </tbody>

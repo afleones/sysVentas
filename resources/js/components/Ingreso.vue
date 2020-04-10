@@ -216,8 +216,8 @@
                                     </tbody>
                                     <tbody v-else>
                                         <tr>
-                                            <td colspan="5">
-                                                NO hay artículos agregados
+                                            <td  class="text-center" colspan="5">
+                                                <h2>NO HAY ARTICULOS AGREGADOS</h2>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -304,8 +304,8 @@
                                     </tbody>
                                     <tbody v-else>
                                         <tr>
-                                            <td class="text-center" colspan="4">
-                                                NO HAY ARTICULOS AGREGADOS
+                                            <td class="text-center" colspan="4">                                                
+                                                <h2>NO HAY ARTICULOS AGREGADOS</h2>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -539,7 +539,6 @@
                     console.log(error);
                 });
             },
-
             cambiarPagina(page,buscar,criterio){
                 let me = this;
                 //Actualiza la página actual

@@ -12,17 +12,6 @@
       <meta name="csrf-token" content="{{ csrf_token() }}">
       <!-- Icons -->
       <link href="css/plantilla.css" rel="stylesheet">
-
-      <!-- include VueJS first -->
-        <script src="https://unpkg.com/vue@latest"></script>
-
-        <!-- use the latest vue-select release -->
-        <script src="https://unpkg.com/vue-select@latest"></script>
-        <link rel="stylesheet" href="https://unpkg.com/vue-select@latest/dist/vue-select.css">
-
-        <!-- or point to a specific vue-select release -->
-        <script src="https://unpkg.com/vue-select@3.0.0"></script>
-        <link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css">
   </head>
   <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
       <div id="app">
@@ -34,12 +23,11 @@
           <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <ul class="nav navbar-nav d-md-down-none">
+          <ul class="nav navbar-nav d-md-down-none">             
               <li class="nav-item px-3">
-                  <a class="nav-link" href="#">Escritorio</a>
-              </li>
-              <li class="nav-item px-3">
-                  <a class="nav-link" href="#">Configuraciones</a>
+                    <a class="nav-link nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">                    
+                      <span class="d-md-down-none">{{Auth::user()->usuario}} </span>
+                    </a>
               </li>
           </ul>
           <ul class="nav navbar-nav ml-auto">
@@ -62,11 +50,7 @@
                       </a>
                   </div>
               </li>
-              <li class="nav-item dropdown">
-                  <!-- <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                      <img src="img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">
-                      <span class="d-md-down-none">{{Auth::user()->usuario}} </span>
-                  </a> -->
+              <li class="nav-item dropdown">                 
                   <a class="dropdown-item" href="{{ route('logout') }}"
                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                   <i class="fa fa-sign-out"></i> Cerrar sesión</a>

@@ -26,6 +26,6 @@
     "dependencies": {
         "sweetalert2": "^9.10.9",
         "vue-barcode": "^1.2.0",
-        "vue-select": "^3.9.5"
+        "vue-select": "^2.0.4"
     }
 }

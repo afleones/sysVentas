@@ -221,7 +221,7 @@
                                     </tbody>
                                     <tbody v-else>
                                         <tr>
-                                            <td class="text-center" colspan="6">NO HAY ARTICULOS AGREGADOS</td>
+                                            <td class="text-center" colspan="6"><h2>NO HAY ARTICULOS AGREGADOS</h2></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -305,7 +305,7 @@
                                     <tbody v-else>
                                         <tr>
                                             <td class="text-center" colspan="5">
-                                                NO HAY ARTICULOS AGREGADOS
+                                                <h2>NO HAY ARTICULOS AGREGADOS</h2>
                                             </td>
                                         </tr>
                                     </tbody>

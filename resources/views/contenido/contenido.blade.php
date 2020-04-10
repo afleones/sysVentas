@@ -83,14 +83,14 @@
             </template>
 
             <template v-if="menu==3">
-                <consultaingreso></consultaingreso>
+                <ingreso></ingreso>                
             </template>
 
             <template v-if="menu==4">
                 <proveedor></proveedor>
             </template>
             <template v-if="menu==9">
-                <ingreso></ingreso>
+                <consultaingreso></consultaingreso>
             </template>
             <template v-if="menu==11">
                 <h1>Ayuda</h1>
