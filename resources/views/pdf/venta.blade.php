@@ -161,17 +161,19 @@
         <section>
             <div>
                 <table id="facvendedor">
-                    <thead>
+                    <thead>                    
                         <tr id="fv">
                             <th>VENDEDOR</th>
                             <th>FECHA</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="text-center" >{{$v->usuario}}</td>
-                            <td class="text-center" >{{$v->created_at}}</td>
-                        </tr>
+                        @foreach ($venta as $v)
+                            <tr>
+                                <td class="text-center" >{{$v->usuario}}</td>
+                                <td class="text-center" >{{$v->created_at}}</td>                            
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

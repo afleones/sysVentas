@@ -134,6 +134,11 @@ class VentaController extends Controller
             }          
 
             DB::commit();
+            //opcional para registrar y que salga enseguida el pdf
+            return [
+                'id' => $venta->id
+            ];
+            // fin opcion
         } catch (Exception $e){
             DB::rollBack();
         }

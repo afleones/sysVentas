@@ -178,53 +178,55 @@
                         </div>
                         <div class="form-group row border">
                             <div class="table-responsive col-md-12">
-                                <table class="table table-bordered table-striped table-sm">
-                                    <thead>
-                                        <tr>
-                                            <th>Opciones</th>
-                                            <th>Artículo</th>
-                                            <th>Precio</th>
-                                            <th>Cantidad</th>
-                                            <th>Descuento</th>
-                                            <th>Subtotal</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody v-if="arrayDetalle.length">
-                                        <tr v-for="(detalle,index) in arrayDetalle" :key="detalle.id">
-                                            <td>
-                                                <button @click="eliminarDetalle(index)" type="button" class="btn btn-danger btn-sm">
-                                                    <i class="icon-close"></i>
-                                                </button>
-                                            </td>
-                                            <td v-text="detalle.articulo"></td>
-                                            <td> <input v-model="detalle.precio" type="number" class="form-control"> </td>
-                                            <td> <span style="color:red;" v-show="detalle.cantidad>detalle.stock">Stock: {{detalle.stock}}</span>
-                                                <input v-model="detalle.cantidad" type="number" class="form-control">
-                                            </td>
-                                            <td> <span style="color:red;" v-show="detalle.descuento>(detalle.precio*detalle.cantidad)">Descuento superior</span>
-                                                <input v-model="detalle.descuento" type="number" class="form-control">
-                                            </td>
-                                            <td> {{detalle.precio*detalle.cantidad-detalle.descuento}} </td>
-                                        </tr>
-                                        <tr style="background-color: #CEECF5;">
-                                            <td colspan="5" align="right"><strong>Total Parcial:</strong></td>
-                                            <td>$ {{totalParcial=(total-totalImpuesto).toFixed(2)}}</td>
-                                        </tr>
-                                        <tr style="background-color: #CEECF5;">
-                                            <td colspan="5" align="right"><strong>Total Impuesto:</strong></td>
-                                            <td>$ {{totalImpuesto=((total*impuesto)/(1+impuesto)).toFixed(2)}}</td>
-                                        </tr>
-                                        <tr style="background-color: #CEECF5;">
-                                            <td colspan="5" align="right"><strong>Total Neto:</strong></td>
-                                            <td>$ {{total=calcularTotal}}</td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody v-else>
-                                        <tr>                                            
-                                            <td class="text-center" colspan="6"> <h2>NO HAY ARTICULOS AGREGADOS</h2> </td>
-                                        </tr>
-                                    </tbody>                                    
-                                </table>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Opciones</th>
+                                                <th>Artículo</th>
+                                                <th>Precio</th>
+                                                <th>Cantidad</th>
+                                                <th>Descuento</th>
+                                                <th>Subtotal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody v-if="arrayDetalle.length">
+                                            <tr v-for="(detalle,index) in arrayDetalle" :key="detalle.id">
+                                                <td>
+                                                    <button @click="eliminarDetalle(index)" type="button" class="btn btn-danger btn-sm">
+                                                        <i class="icon-close"></i>
+                                                    </button>
+                                                </td>
+                                                <td v-text="detalle.articulo"></td>
+                                                <td> <input v-model="detalle.precio" type="number" class="form-control"> </td>
+                                                <td> <span style="color:red;" v-show="detalle.cantidad>detalle.stock">Stock: {{detalle.stock}}</span>
+                                                    <input v-model="detalle.cantidad" type="number" class="form-control">
+                                                </td>
+                                                <td> <span style="color:red;" v-show="detalle.descuento>(detalle.precio*detalle.cantidad)">Descuento superior</span>
+                                                    <input v-model="detalle.descuento" type="number" class="form-control">
+                                                </td>
+                                                <td> {{detalle.precio*detalle.cantidad-detalle.descuento}} </td>
+                                            </tr>
+                                            <tr style="background-color: #CEECF5;">
+                                                <td colspan="5" align="right"><strong>Total Parcial:</strong></td>
+                                                <td>$ {{totalParcial=(total-totalImpuesto).toFixed(2)}}</td>
+                                            </tr>
+                                            <tr style="background-color: #CEECF5;">
+                                                <td colspan="5" align="right"><strong>Total Impuesto:</strong></td>
+                                                <td>$ {{totalImpuesto=((total*impuesto)/(1+impuesto)).toFixed(2)}}</td>
+                                            </tr>
+                                            <tr style="background-color: #CEECF5;">
+                                                <td colspan="5" align="right"><strong>Total Neto:</strong></td>
+                                                <td>$ {{total=calcularTotal}}</td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody v-else>
+                                            <tr>                                            
+                                                <td class="text-center" colspan="6"> <h2>NO HAY ARTICULOS AGREGADOS</h2> </td>
+                                            </tr>
+                                        </tbody>                                    
+                                    </table>
+                                </div>                                
                             </div>
                         </div>
                         <div class="form-group row">
@@ -312,8 +314,8 @@
                         </div>
                         <div class="form-group row">
                             <div class="col-md-12">
-                                <button type="button" @click="ocultarDetalle()" class="btn btn-secondary">Cerrar</button>                                
-                            </div>
+                                <button type="button" @click="ocultarDetalle()" class="btn btn-secondary">Cerrar</button>                                                                
+                            </div>                                                                    
                         </div>
                     </div>
                     </template>
@@ -669,8 +671,9 @@
                     me.codigo='';
                     me.descuento=0;
                     me.arrayDetalle=[];
-                    window.open('http://127.0.0.1:8000/venta/pdf/'+ reponde.data.id + ',' + '_blank');
-
+                     //opcional para registrar y que salga y descarge enseguida el pdf
+                    window.open('http://127.0.0.1:8000/venta/pdf/'+ response.data.id + ',' + '_blank');
+                     //fin opcion para descargar despues de registrar
                 }).catch(function (error) {
                     console.log(error);
                 });

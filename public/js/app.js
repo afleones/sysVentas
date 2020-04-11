@@ -5952,6 +5952,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -6217,8 +6219,9 @@ __webpack_require__.r(__webpack_exports__);
         me.stock = 0;
         me.codigo = '';
         me.descuento = 0;
-        me.arrayDetalle = [];
-        window.open('http://127.0.0.1:8000/venta/pdf/' + reponde.data.id + ',' + '_blank');
+        me.arrayDetalle = []; //opcional para registrar y que salga y descarge enseguida el pdf
+
+        window.open('http://127.0.0.1:8000/venta/pdf/' + response.data.id + ',' + '_blank'); //fin opcion para descargar despues de registrar
       })["catch"](function (error) {
         console.log(error);
       });
@@ -54482,269 +54485,276 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group row border" }, [
                     _c("div", { staticClass: "table-responsive col-md-12" }, [
-                      _c(
-                        "table",
-                        {
-                          staticClass:
-                            "table table-bordered table-striped table-sm"
-                        },
-                        [
-                          _vm._m(2),
-                          _vm._v(" "),
-                          _vm.arrayDetalle.length
-                            ? _c(
-                                "tbody",
-                                [
-                                  _vm._l(_vm.arrayDetalle, function(
-                                    detalle,
-                                    index
-                                  ) {
-                                    return _c("tr", { key: detalle.id }, [
-                                      _c("td", [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-danger btn-sm",
-                                            attrs: { type: "button" },
+                      _c("div", { staticClass: "table-responsive" }, [
+                        _c(
+                          "table",
+                          {
+                            staticClass:
+                              "table table-bordered table-striped table-sm"
+                          },
+                          [
+                            _vm._m(2),
+                            _vm._v(" "),
+                            _vm.arrayDetalle.length
+                              ? _c(
+                                  "tbody",
+                                  [
+                                    _vm._l(_vm.arrayDetalle, function(
+                                      detalle,
+                                      index
+                                    ) {
+                                      return _c("tr", { key: detalle.id }, [
+                                        _c("td", [
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "btn btn-danger btn-sm",
+                                              attrs: { type: "button" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.eliminarDetalle(
+                                                    index
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("i", {
+                                                staticClass: "icon-close"
+                                              })
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("td", {
+                                          domProps: {
+                                            textContent: _vm._s(
+                                              detalle.articulo
+                                            )
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          _c("input", {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model",
+                                                value: detalle.precio,
+                                                expression: "detalle.precio"
+                                              }
+                                            ],
+                                            staticClass: "form-control",
+                                            attrs: { type: "number" },
+                                            domProps: { value: detalle.precio },
                                             on: {
-                                              click: function($event) {
-                                                return _vm.eliminarDetalle(
-                                                  index
+                                              input: function($event) {
+                                                if ($event.target.composing) {
+                                                  return
+                                                }
+                                                _vm.$set(
+                                                  detalle,
+                                                  "precio",
+                                                  $event.target.value
                                                 )
                                               }
                                             }
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass: "icon-close"
-                                            })
-                                          ]
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", {
-                                        domProps: {
-                                          textContent: _vm._s(detalle.articulo)
+                                          })
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          _c(
+                                            "span",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "show",
+                                                  rawName: "v-show",
+                                                  value:
+                                                    detalle.cantidad >
+                                                    detalle.stock,
+                                                  expression:
+                                                    "detalle.cantidad>detalle.stock"
+                                                }
+                                              ],
+                                              staticStyle: { color: "red" }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "Stock: " +
+                                                  _vm._s(detalle.stock)
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("input", {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model",
+                                                value: detalle.cantidad,
+                                                expression: "detalle.cantidad"
+                                              }
+                                            ],
+                                            staticClass: "form-control",
+                                            attrs: { type: "number" },
+                                            domProps: {
+                                              value: detalle.cantidad
+                                            },
+                                            on: {
+                                              input: function($event) {
+                                                if ($event.target.composing) {
+                                                  return
+                                                }
+                                                _vm.$set(
+                                                  detalle,
+                                                  "cantidad",
+                                                  $event.target.value
+                                                )
+                                              }
+                                            }
+                                          })
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          _c(
+                                            "span",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "show",
+                                                  rawName: "v-show",
+                                                  value:
+                                                    detalle.descuento >
+                                                    detalle.precio *
+                                                      detalle.cantidad,
+                                                  expression:
+                                                    "detalle.descuento>(detalle.precio*detalle.cantidad)"
+                                                }
+                                              ],
+                                              staticStyle: { color: "red" }
+                                            },
+                                            [_vm._v("Descuento superior")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("input", {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model",
+                                                value: detalle.descuento,
+                                                expression: "detalle.descuento"
+                                              }
+                                            ],
+                                            staticClass: "form-control",
+                                            attrs: { type: "number" },
+                                            domProps: {
+                                              value: detalle.descuento
+                                            },
+                                            on: {
+                                              input: function($event) {
+                                                if ($event.target.composing) {
+                                                  return
+                                                }
+                                                _vm.$set(
+                                                  detalle,
+                                                  "descuento",
+                                                  $event.target.value
+                                                )
+                                              }
+                                            }
+                                          })
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          _vm._v(
+                                            " " +
+                                              _vm._s(
+                                                detalle.precio *
+                                                  detalle.cantidad -
+                                                  detalle.descuento
+                                              ) +
+                                              " "
+                                          )
+                                        ])
+                                      ])
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "tr",
+                                      {
+                                        staticStyle: {
+                                          "background-color": "#CEECF5"
                                         }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _c("input", {
-                                          directives: [
-                                            {
-                                              name: "model",
-                                              rawName: "v-model",
-                                              value: detalle.precio,
-                                              expression: "detalle.precio"
-                                            }
-                                          ],
-                                          staticClass: "form-control",
-                                          attrs: { type: "number" },
-                                          domProps: { value: detalle.precio },
-                                          on: {
-                                            input: function($event) {
-                                              if ($event.target.composing) {
-                                                return
-                                              }
-                                              _vm.$set(
-                                                detalle,
-                                                "precio",
-                                                $event.target.value
-                                              )
-                                            }
-                                          }
-                                        })
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _c(
-                                          "span",
-                                          {
-                                            directives: [
-                                              {
-                                                name: "show",
-                                                rawName: "v-show",
-                                                value:
-                                                  detalle.cantidad >
-                                                  detalle.stock,
-                                                expression:
-                                                  "detalle.cantidad>detalle.stock"
-                                              }
-                                            ],
-                                            staticStyle: { color: "red" }
-                                          },
-                                          [
-                                            _vm._v(
-                                              "Stock: " + _vm._s(detalle.stock)
-                                            )
-                                          ]
-                                        ),
+                                      },
+                                      [
+                                        _vm._m(3),
                                         _vm._v(" "),
-                                        _c("input", {
-                                          directives: [
-                                            {
-                                              name: "model",
-                                              rawName: "v-model",
-                                              value: detalle.cantidad,
-                                              expression: "detalle.cantidad"
-                                            }
-                                          ],
-                                          staticClass: "form-control",
-                                          attrs: { type: "number" },
-                                          domProps: { value: detalle.cantidad },
-                                          on: {
-                                            input: function($event) {
-                                              if ($event.target.composing) {
-                                                return
-                                              }
-                                              _vm.$set(
-                                                detalle,
-                                                "cantidad",
-                                                $event.target.value
+                                        _c("td", [
+                                          _vm._v(
+                                            "$ " +
+                                              _vm._s(
+                                                (_vm.totalParcial = (
+                                                  _vm.total - _vm.totalImpuesto
+                                                ).toFixed(2))
                                               )
-                                            }
-                                          }
-                                        })
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _c(
-                                          "span",
-                                          {
-                                            directives: [
-                                              {
-                                                name: "show",
-                                                rawName: "v-show",
-                                                value:
-                                                  detalle.descuento >
-                                                  detalle.precio *
-                                                    detalle.cantidad,
-                                                expression:
-                                                  "detalle.descuento>(detalle.precio*detalle.cantidad)"
-                                              }
-                                            ],
-                                            staticStyle: { color: "red" }
-                                          },
-                                          [_vm._v("Descuento superior")]
-                                        ),
+                                          )
+                                        ])
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "tr",
+                                      {
+                                        staticStyle: {
+                                          "background-color": "#CEECF5"
+                                        }
+                                      },
+                                      [
+                                        _vm._m(4),
                                         _vm._v(" "),
-                                        _c("input", {
-                                          directives: [
-                                            {
-                                              name: "model",
-                                              rawName: "v-model",
-                                              value: detalle.descuento,
-                                              expression: "detalle.descuento"
-                                            }
-                                          ],
-                                          staticClass: "form-control",
-                                          attrs: { type: "number" },
-                                          domProps: {
-                                            value: detalle.descuento
-                                          },
-                                          on: {
-                                            input: function($event) {
-                                              if ($event.target.composing) {
-                                                return
-                                              }
-                                              _vm.$set(
-                                                detalle,
-                                                "descuento",
-                                                $event.target.value
+                                        _c("td", [
+                                          _vm._v(
+                                            "$ " +
+                                              _vm._s(
+                                                (_vm.totalImpuesto = (
+                                                  (_vm.total * _vm.impuesto) /
+                                                  (1 + _vm.impuesto)
+                                                ).toFixed(2))
                                               )
-                                            }
-                                          }
-                                        })
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v(
-                                          " " +
-                                            _vm._s(
-                                              detalle.precio *
-                                                detalle.cantidad -
-                                                detalle.descuento
-                                            ) +
-                                            " "
-                                        )
-                                      ])
-                                    ])
-                                  }),
-                                  _vm._v(" "),
-                                  _c(
-                                    "tr",
-                                    {
-                                      staticStyle: {
-                                        "background-color": "#CEECF5"
-                                      }
-                                    },
-                                    [
-                                      _vm._m(3),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v(
-                                          "$ " +
-                                            _vm._s(
-                                              (_vm.totalParcial = (
-                                                _vm.total - _vm.totalImpuesto
-                                              ).toFixed(2))
-                                            )
-                                        )
-                                      ])
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "tr",
-                                    {
-                                      staticStyle: {
-                                        "background-color": "#CEECF5"
-                                      }
-                                    },
-                                    [
-                                      _vm._m(4),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v(
-                                          "$ " +
-                                            _vm._s(
-                                              (_vm.totalImpuesto = (
-                                                (_vm.total * _vm.impuesto) /
-                                                (1 + _vm.impuesto)
-                                              ).toFixed(2))
-                                            )
-                                        )
-                                      ])
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "tr",
-                                    {
-                                      staticStyle: {
-                                        "background-color": "#CEECF5"
-                                      }
-                                    },
-                                    [
-                                      _vm._m(5),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v(
-                                          "$ " +
-                                            _vm._s(
-                                              (_vm.total = _vm.calcularTotal)
-                                            )
-                                        )
-                                      ])
-                                    ]
-                                  )
-                                ],
-                                2
-                              )
-                            : _c("tbody", [_vm._m(6)])
-                        ]
-                      )
+                                          )
+                                        ])
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "tr",
+                                      {
+                                        staticStyle: {
+                                          "background-color": "#CEECF5"
+                                        }
+                                      },
+                                      [
+                                        _vm._m(5),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          _vm._v(
+                                            "$ " +
+                                              _vm._s(
+                                                (_vm.total = _vm.calcularTotal)
+                                              )
+                                          )
+                                        ])
+                                      ]
+                                    )
+                                  ],
+                                  2
+                                )
+                              : _c("tbody", [_vm._m(6)])
+                          ]
+                        )
+                      ])
                     ])
                   ]),
                   _vm._v(" "),
