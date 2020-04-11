@@ -96,7 +96,7 @@ class VentaController extends Controller
 
         $pdf = \PDF::loadView('pdf.venta',['venta'=>$venta,'detalles'=>$detalles]);
         return $pdf->download('venta-'.$numventa[0]->num_comprobante.'.pdf');
-    }
+    }    
 
     public function store(Request $request)
     {
@@ -105,7 +105,7 @@ class VentaController extends Controller
         try{
             DB::beginTransaction();
 
-            $mytime= Carbon::now('America/Lima');
+            $mytime= Carbon::now('America/Bogota');
 
             $venta = new Venta();
             $venta->idcliente = $request->idcliente;
@@ -133,30 +133,7 @@ class VentaController extends Controller
                 $detalle->save();
             }          
 
-            $fechaActual= date('Y-m-d');
-            $numVentas = DB::table('ventas')->whereDate('created_at', $fechaActual)->count(); 
-            $numIngresos = DB::table('ingresos')->whereDate('created_at',$fechaActual)->count(); 
-
-            $arregloDatos = [ 
-            'ventas' => [ 
-                        'numero' => $numVentas, 
-                        'msj' => 'Ventas' 
-                    ], 
-            'ingresos' => [ 
-                        'numero' => $numIngresos, 
-                        'msj' => 'Ingresos' 
-                    ] 
-            ];                
-            $allUsers = User::all();
-
-            foreach ($allUsers as $notificar) { 
-                User::findOrFail($notificar->id)->notify(new NotifyAdmin($arregloDatos)); 
-            }
-
             DB::commit();
-            return [
-                'id' => $venta->id
-            ];
         } catch (Exception $e){
             DB::rollBack();
         }

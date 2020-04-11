@@ -5952,10 +5952,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -5963,7 +5959,6 @@ __webpack_require__.r(__webpack_exports__);
       venta_id: 0,
       idcliente: 0,
       cliente: '',
-      stock: 0,
       tipo_comprobante: 'BOLETA',
       serie_comprobante: '',
       num_comprobante: '',
@@ -5999,7 +5994,8 @@ __webpack_require__.r(__webpack_exports__);
       articulo: '',
       precio: 0,
       cantidad: 0,
-      descuento: 0
+      descuento: 0,
+      stock: 0
     };
   },
   components: {
@@ -6138,7 +6134,7 @@ __webpack_require__.r(__webpack_exports__);
             swal({
               type: 'error',
               title: 'Error...',
-              text: 'No Hay STOCK Disponible!'
+              text: 'NO hay stock disponible!'
             });
           } else {
             me.arrayDetalle.push({
@@ -6219,10 +6215,10 @@ __webpack_require__.r(__webpack_exports__);
         me.cantidad = 0;
         me.precio = 0;
         me.stock = 0;
-        me.codigo = 0;
+        me.codigo = '';
         me.descuento = 0;
         me.arrayDetalle = [];
-        window.open('http://localhost:8000/venta/pdf/' + reponde.data.id + ',' + '_blank');
+        window.open('http://127.0.0.1:8000/venta/pdf/' + reponde.data.id + ',' + '_blank');
       })["catch"](function (error) {
         console.log(error);
       });
@@ -6233,8 +6229,10 @@ __webpack_require__.r(__webpack_exports__);
       me.errorMostrarMsjVenta = [];
       var art;
       me.arrayDetalle.map(function (x) {
-        if (x.cantidad > x.stock) art = x.articulo + " Con Stock Insuficiente";
-        me.errorMostrarMsjVenta.push(art);
+        if (x.cantidad > x.stock) {
+          art = x.articulo + " con stock insuficiente";
+          me.errorMostrarMsjVenta.push(art);
+        }
       });
       if (me.idcliente == 0) me.errorMostrarMsjVenta.push("Seleccione un Cliente");
       if (me.tipo_comprobante == 0) me.errorMostrarMsjVenta.push("Seleccione el comprobante");
@@ -6279,7 +6277,7 @@ __webpack_require__.r(__webpack_exports__);
         me.total = arrayVentaT[0]['total'];
       })["catch"](function (error) {
         console.log(error);
-      }); //Obtener los datos de los detalles
+      }); //Obtener los datos de los detalles 
 
       var urld = '/venta/obtenerDetalles?id=' + id;
       axios.get(urld).then(function (response) {
@@ -6303,7 +6301,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       swal({
-        title: 'Esta seguro de anular esta Venta?',
+        title: 'Esta seguro de anular esta venta?',
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -54578,9 +54576,7 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "Stock: " +
-                                                _vm._s(detalle.stock) +
-                                                " "
+                                              "Stock: " + _vm._s(detalle.stock)
                                             )
                                           ]
                                         ),
@@ -54630,7 +54626,7 @@ var render = function() {
                                             ],
                                             staticStyle: { color: "red" }
                                           },
-                                          [_vm._v("Descuento Superior")]
+                                          [_vm._v("Descuento superior")]
                                         ),
                                         _vm._v(" "),
                                         _c("input", {
@@ -54664,10 +54660,13 @@ var render = function() {
                                       _vm._v(" "),
                                       _c("td", [
                                         _vm._v(
-                                          _vm._s(
-                                            detalle.precio * detalle.cantidad -
-                                              detalle.descuento
-                                          )
+                                          " " +
+                                            _vm._s(
+                                              detalle.precio *
+                                                detalle.cantidad -
+                                                detalle.descuento
+                                            ) +
+                                            " "
                                         )
                                       ])
                                     ])
@@ -54884,10 +54883,13 @@ var render = function() {
                                       _vm._v(" "),
                                       _c("td", [
                                         _vm._v(
-                                          _vm._s(
-                                            detalle.precio * detalle.cantidad -
-                                              _vm.destalle.descuento
-                                          ) + " "
+                                          " " +
+                                            _vm._s(
+                                              detalle.precio *
+                                                detalle.cantidad -
+                                                detalle.descuento
+                                            ) +
+                                            " "
                                         )
                                       ])
                                     ])
