@@ -28,17 +28,21 @@ class ChangeColumn
     {
         if (! $connection->isDoctrineAvailable()) {
             throw new RuntimeException(sprintf(
-                'Changing columns for table "%s" requires Doctrine DBAL; install "doctrine/dbal".',
+                'Changing columns for table "%s" requires Doctrine DBAL. Please install the doctrine/dbal package.',
                 $blueprint->getTable()
             ));
         }
 
+        $schema = $connection->getDoctrineSchemaManager();
+        $databasePlatform = $schema->getDatabasePlatform();
+        $databasePlatform->registerDoctrineTypeMapping('enum', 'string');
+
         $tableDiff = static::getChangedDiff(
-            $grammar, $blueprint, $schema = $connection->getDoctrineSchemaManager()
+            $grammar, $blueprint, $schema
         );
 
         if ($tableDiff !== false) {
-            return (array) $schema->getDatabasePlatform()->getAlterTableSQL($tableDiff);
+            return (array) $databasePlatform->getAlterTableSQL($tableDiff);
         }
 
         return [];
@@ -121,7 +125,11 @@ class ChangeColumn
             $options['length'] = static::calculateDoctrineTextLength($fluent['type']);
         }
 
-        if (in_array($fluent['type'], ['json', 'binary'])) {
+        if ($fluent['type'] === 'char') {
+            $options['fixed'] = true;
+        }
+
+        if (static::doesntNeedCharacterOptions($fluent['type'])) {
             $options['customSchemaOptions'] = [
                 'collation' => '',
                 'charset' => '',
@@ -141,23 +149,15 @@ class ChangeColumn
     {
         $type = strtolower($type);
 
-        switch ($type) {
-            case 'biginteger':
-                $type = 'bigint';
-                break;
-            case 'smallinteger':
-                $type = 'smallint';
-                break;
-            case 'mediumtext':
-            case 'longtext':
-                $type = 'text';
-                break;
-            case 'binary':
-                $type = 'blob';
-                break;
-        }
-
-        return Type::getType($type);
+        return Type::getType(match ($type) {
+            'biginteger' => 'bigint',
+            'smallinteger' => 'smallint',
+            'mediumtext', 'longtext' => 'text',
+            'binary' => 'blob',
+            'uuid' => 'guid',
+            'char' => 'string',
+            default => $type,
+        });
     }
 
     /**
@@ -168,14 +168,37 @@ class ChangeColumn
      */
     protected static function calculateDoctrineTextLength($type)
     {
-        switch ($type) {
-            case 'mediumText':
-                return 65535 + 1;
-            case 'longText':
-                return 16777215 + 1;
-            default:
-                return 255 + 1;
-        }
+        return match ($type) {
+            'mediumText' => 65535 + 1,
+            'longText' => 16777215 + 1,
+            default => 255 + 1,
+        };
+    }
+
+    /**
+     * Determine if the given type does not need character / collation options.
+     *
+     * @param  string  $type
+     * @return bool
+     */
+    protected static function doesntNeedCharacterOptions($type)
+    {
+        return in_array($type, [
+            'bigInteger',
+            'binary',
+            'boolean',
+            'date',
+            'dateTime',
+            'decimal',
+            'double',
+            'float',
+            'integer',
+            'json',
+            'mediumInteger',
+            'smallInteger',
+            'time',
+            'tinyInteger',
+        ]);
     }
 
     /**
@@ -186,19 +209,13 @@ class ChangeColumn
      */
     protected static function mapFluentOptionToDoctrine($attribute)
     {
-        switch ($attribute) {
-            case 'type':
-            case 'name':
-                return;
-            case 'nullable':
-                return 'notnull';
-            case 'total':
-                return 'precision';
-            case 'places':
-                return 'scale';
-            default:
-                return $attribute;
-        }
+        return match ($attribute) {
+            'type', 'name' => null,
+            'nullable' => 'notnull',
+            'total' => 'precision',
+            'places' => 'scale',
+            default => $attribute,
+        };
     }
 
     /**

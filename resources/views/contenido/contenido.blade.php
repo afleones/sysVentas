@@ -83,7 +83,7 @@
             </template>
 
             <template v-if="menu==3">
-                <ingreso></ingreso>                
+                <ingreso></ingreso>
             </template>
 
             <template v-if="menu==4">
@@ -104,12 +104,12 @@
             @endif
 
     @endif
-       
-        
+
+
     @endsection
     @section('footer')
       <footer class="app-footer">
-          <span><a href="http://www.incanatoit.com/">Unidormate</a> &copy; 2020</span>
-          <span class="ml-auto">Desarrollado por <a href="#">JamesGiraldo</a></span>
+          <span><a href="https://bio.andresleones.com/">SysVenta</a> &copy; 2020</span>
+          <span class="ml-auto">Desarrollado por<a href="#">Andrés Leones</a></span>
       </footer>
     @endsection

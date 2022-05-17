@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the league/commonmark package.
  *
@@ -13,37 +15,25 @@ namespace League\CommonMark\Extension\Strikethrough;
 
 use League\CommonMark\Delimiter\DelimiterInterface;
 use League\CommonMark\Delimiter\Processor\DelimiterProcessorInterface;
-use League\CommonMark\Inline\Element\AbstractStringContainer;
+use League\CommonMark\Node\Inline\AbstractStringContainer;
 
 final class StrikethroughDelimiterProcessor implements DelimiterProcessorInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getOpeningCharacter(): string
     {
         return '~';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getClosingCharacter(): string
     {
         return '~';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getMinLength(): int
     {
         return 2;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDelimiterUse(DelimiterInterface $opener, DelimiterInterface $closer): int
     {
         $min = \min($opener->getLength(), $closer->getLength());
@@ -51,12 +41,9 @@ final class StrikethroughDelimiterProcessor implements DelimiterProcessorInterfa
         return $min >= 2 ? $min : 0;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function process(AbstractStringContainer $opener, AbstractStringContainer $closer, int $delimiterUse)
+    public function process(AbstractStringContainer $opener, AbstractStringContainer $closer, int $delimiterUse): void
     {
-        $strikethrough = new Strikethrough();
+        $strikethrough = new Strikethrough(\str_repeat('~', $delimiterUse));
 
         $tmp = $opener->next();
         while ($tmp !== null && $tmp !== $closer) {

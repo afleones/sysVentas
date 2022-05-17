@@ -3,11 +3,14 @@
 namespace Illuminate\Http\Client;
 
 use ArrayAccess;
-use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Traits\Macroable;
 use LogicException;
 
 class Request implements ArrayAccess
 {
+    use Macroable;
+
     /**
      * The underlying PSR request.
      *
@@ -62,9 +65,40 @@ class Request implements ArrayAccess
      */
     public function hasHeader($key, $value = null)
     {
-        return is_null($value)
-                    ? ! empty($this->request->getHeaders()[$key])
-                    : in_array($value, $this->headers()[$key]);
+        if (is_null($value)) {
+            return ! empty($this->request->getHeaders()[$key]);
+        }
+
+        $headers = $this->headers();
+
+        if (! Arr::has($headers, $key)) {
+            return false;
+        }
+
+        $value = is_array($value) ? $value : [$value];
+
+        return empty(array_diff($value, $headers[$key]));
+    }
+
+    /**
+     * Determine if the request has the given headers.
+     *
+     * @param  array|string  $headers
+     * @return bool
+     */
+    public function hasHeaders($headers)
+    {
+        if (is_string($headers)) {
+            $headers = [$headers => null];
+        }
+
+        foreach ($headers as $key => $value) {
+            if (! $this->hasHeader($key, $value)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -75,7 +109,7 @@ class Request implements ArrayAccess
      */
     public function header($key)
     {
-        return $this->headers()[$key];
+        return Arr::get($this->headers(), $key, []);
     }
 
     /**
@@ -85,9 +119,7 @@ class Request implements ArrayAccess
      */
     public function headers()
     {
-        return collect($this->request->getHeaders())->mapWithKeys(function ($values, $header) {
-            return [$header => $values];
-        })->all();
+        return $this->request->getHeaders();
     }
 
     /**
@@ -184,7 +216,8 @@ class Request implements ArrayAccess
      */
     public function isJson()
     {
-        return Str::contains($this->header('Content-Type')[0], 'json');
+        return $this->hasHeader('Content-Type') &&
+               str_contains($this->header('Content-Type')[0], 'json');
     }
 
     /**
@@ -194,7 +227,8 @@ class Request implements ArrayAccess
      */
     public function isMultipart()
     {
-        return Str::startsWith($this->header('Content-Type')[0], 'multipart');
+        return $this->hasHeader('Content-Type') &&
+               str_contains($this->header('Content-Type')[0], 'multipart');
     }
 
     /**
@@ -211,12 +245,22 @@ class Request implements ArrayAccess
     }
 
     /**
+     * Get the underlying PSR compliant request instance.
+     *
+     * @return \Psr\Http\Message\RequestInterface
+     */
+    public function toPsrRequest()
+    {
+        return $this->request;
+    }
+
+    /**
      * Determine if the given offset exists.
      *
      * @param  string  $offset
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->data()[$offset]);
     }
@@ -227,7 +271,7 @@ class Request implements ArrayAccess
      * @param  string  $offset
      * @return mixed
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->data()[$offset];
     }
@@ -241,7 +285,7 @@ class Request implements ArrayAccess
      *
      * @throws \LogicException
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         throw new LogicException('Request data may not be mutated using array access.');
     }
@@ -254,7 +298,7 @@ class Request implements ArrayAccess
      *
      * @throws \LogicException
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         throw new LogicException('Request data may not be mutated using array access.');
     }

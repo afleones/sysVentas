@@ -4,7 +4,6 @@ namespace Illuminate\Foundation\Testing\Concerns;
 
 use Illuminate\Console\OutputStyle;
 use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Support\Arr;
 use Illuminate\Testing\PendingCommand;
 
 trait InteractsWithConsole
@@ -22,6 +21,34 @@ trait InteractsWithConsole
      * @var array
      */
     public $expectedOutput = [];
+
+    /**
+     * All of the expected text to be present in the output.
+     *
+     * @var array
+     */
+    public $expectedOutputSubstrings = [];
+
+    /**
+     * All of the output lines that aren't expected to be displayed.
+     *
+     * @var array
+     */
+    public $unexpectedOutput = [];
+
+    /**
+     * All of the text that is not expected to be present in the output.
+     *
+     * @var array
+     */
+    public $unexpectedOutputSubstrings = [];
+
+    /**
+     * All of the expected output tables.
+     *
+     * @var array
+     */
+    public $expectedTables = [];
 
     /**
      * All of the expected questions.
@@ -49,28 +76,6 @@ trait InteractsWithConsole
         if (! $this->mockConsoleOutput) {
             return $this->app[Kernel::class]->call($command, $parameters);
         }
-
-        $this->beforeApplicationDestroyed(function () {
-            if (count($this->expectedQuestions)) {
-                $this->fail('Question "'.Arr::first($this->expectedQuestions)[0].'" was not asked.');
-            }
-
-            if (count($this->expectedChoices) > 0) {
-                foreach ($this->expectedChoices as $question => $answers) {
-                    $assertion = $answers['strict'] ? 'assertEquals' : 'assertEqualsCanonicalizing';
-
-                    $this->{$assertion}(
-                        $answers['expected'],
-                        $answers['actual'],
-                        'Question "'.$question.'" has different options.'
-                    );
-                }
-            }
-
-            if (count($this->expectedOutput)) {
-                $this->fail('Output "'.Arr::first($this->expectedOutput).'" was not printed.');
-            }
-        });
 
         return new PendingCommand($this, $this->app, $command, $parameters);
     }

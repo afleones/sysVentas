@@ -84,6 +84,18 @@ trait HidesAttributes
     }
 
     /**
+     * Make the given, typically hidden, attributes visible if the given truth test passes.
+     *
+     * @param  bool|\Closure  $condition
+     * @param  array|string|null  $attributes
+     * @return $this
+     */
+    public function makeVisibleIf($condition, $attributes)
+    {
+        return value($condition, $this) ? $this->makeVisible($attributes) : $this;
+    }
+
+    /**
      * Make the given, typically visible, attributes hidden.
      *
      * @param  array|string|null  $attributes
@@ -96,5 +108,17 @@ trait HidesAttributes
         );
 
         return $this;
+    }
+
+    /**
+     * Make the given, typically visible, attributes hidden if the given truth test passes.
+     *
+     * @param  bool|\Closure  $condition
+     * @param  array|string|null  $attributes
+     * @return $this
+     */
+    public function makeHiddenIf($condition, $attributes)
+    {
+        return value($condition, $this) ? $this->makeHidden($attributes) : $this;
     }
 }

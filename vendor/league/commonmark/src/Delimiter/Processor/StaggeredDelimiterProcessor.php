@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the league/commonmark package.
  *
@@ -15,7 +17,7 @@
 namespace League\CommonMark\Delimiter\Processor;
 
 use League\CommonMark\Delimiter\DelimiterInterface;
-use League\CommonMark\Inline\Element\AbstractStringContainer;
+use League\CommonMark\Node\Inline\AbstractStringContainer;
 
 /**
  * An implementation of DelimiterProcessorInterface that dispatches all calls to two or more other DelimiterProcessors
@@ -27,12 +29,18 @@ use League\CommonMark\Inline\Element\AbstractStringContainer;
  */
 final class StaggeredDelimiterProcessor implements DelimiterProcessorInterface
 {
-    private $delimiterChar;
+    /** @psalm-readonly */
+    private string $delimiterChar;
 
-    private $minLength = 0;
+    /** @psalm-readonly-allow-private-mutation */
+    private int $minLength = 0;
 
-    /** @var array<int, DelimiterProcessorInterface>|DelimiterProcessorInterface[] */
-    private $processors = []; // keyed by minLength in reverse order
+    /**
+     * @var array<int, DelimiterProcessorInterface>|DelimiterProcessorInterface[]
+     *
+     * @psalm-readonly-allow-private-mutation
+     */
+    private array $processors = []; // keyed by minLength in reverse order
 
     public function __construct(string $char, DelimiterProcessorInterface $processor)
     {
@@ -40,25 +48,16 @@ final class StaggeredDelimiterProcessor implements DelimiterProcessorInterface
         $this->add($processor);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getOpeningCharacter(): string
     {
         return $this->delimiterChar;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getClosingCharacter(): string
     {
         return $this->delimiterChar;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getMinLength(): int
     {
         return $this->minLength;
@@ -66,10 +65,8 @@ final class StaggeredDelimiterProcessor implements DelimiterProcessorInterface
 
     /**
      * Adds the given processor to this staggered delimiter processor
-     *
-     * @param DelimiterProcessorInterface $processor
      */
-    public function add(DelimiterProcessorInterface $processor)
+    public function add(DelimiterProcessorInterface $processor): void
     {
         $len = $processor->getMinLength();
 
@@ -83,20 +80,14 @@ final class StaggeredDelimiterProcessor implements DelimiterProcessorInterface
         $this->minLength = \min($this->minLength, $len);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDelimiterUse(DelimiterInterface $opener, DelimiterInterface $closer): int
     {
         return $this->findProcessor($opener->getLength())->getDelimiterUse($opener, $closer);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function process(AbstractStringContainer $opener, AbstractStringContainer $closer, int $delimiterUse)
+    public function process(AbstractStringContainer $opener, AbstractStringContainer $closer, int $delimiterUse): void
     {
-        return $this->findProcessor($delimiterUse)->process($opener, $closer, $delimiterUse);
+        $this->findProcessor($delimiterUse)->process($opener, $closer, $delimiterUse);
     }
 
     private function findProcessor(int $len): DelimiterProcessorInterface
@@ -109,8 +100,8 @@ final class StaggeredDelimiterProcessor implements DelimiterProcessorInterface
         }
 
         // Just use the first one in our list
-        /** @var DelimiterProcessorInterface $first */
         $first = \reset($this->processors);
+        \assert($first instanceof DelimiterProcessorInterface);
 
         return $first;
     }
