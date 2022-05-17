@@ -13,17 +13,17 @@
         /*margin: 0 auto; */
         /*color: #555555;*/
         /*background: #FFFFFF; */
-        font-family: Arial, sans-serif; 
+        font-family: Arial, sans-serif;
         font-size: 14px;
         /*font-family: SourceSansPro;*/
         border: solid  #e4e5e6 1px;
-        /* the border will curve into a 'D' */  
-        border-radius: 0px 0px 0px 0px;       
+        /* the border will curve into a 'D' */
+        border-radius: 0px 0px 0px 0px;
         }
-        .derecha{            
+        .derecha{
             float:right;
             padding: 2px;
-        }   
+        }
 
         #logo{
         float: left;
@@ -84,7 +84,7 @@
         padding: 20px;
         background: #2183E3;
         text-align: left;
-        border-bottom: 1px solid #FFFFFF;  
+        border-bottom: 1px solid #FFFFFF;
         }
 
         #facvendedor{
@@ -98,7 +98,7 @@
         padding: 20px;
         background: #2183E3;
         text-align: center;
-        border-bottom: 1px solid #FFFFFF;  
+        border-bottom: 1px solid #FFFFFF;
         }
 
         #facarticulo{
@@ -112,18 +112,18 @@
         padding: 20px;
         background: #2183E3;
         text-align: center;
-        border-bottom: 1px solid #FFFFFF;  
+        border-bottom: 1px solid #FFFFFF;
         }
 
         #gracias{
-        text-align: center; 
+        text-align: center;
         }
     </style>
     <body>
         @foreach ($venta as $v)
         <header>
             <div id="logo">
-                <img src="img/logojames.jpeg" alt="JamesGiraldo" id="imagen">
+                <img src="img/logojames.jpeg" alt="Logo" id="imagen">
             </div>
             <div id="datos">
                 <p id="encabezado">
@@ -139,7 +139,7 @@
         <section>
             <div>
                 <table id="facliente">
-                    <thead>                        
+                    <thead>
                         <tr>
                             <th  class="text-center" id="fac">Cliente</th>
                         </tr>
@@ -161,7 +161,7 @@
         <section>
             <div>
                 <table id="facvendedor">
-                    <thead>                    
+                    <thead>
                         <tr id="fv">
                             <th>VENDEDOR</th>
                             <th>FECHA</th>
@@ -171,7 +171,7 @@
                         @foreach ($venta as $v)
                             <tr>
                                 <td class="text-center" >{{$v->usuario}}</td>
-                                <td class="text-center" >{{$v->created_at}}</td>                            
+                                <td class="text-center" >{{$v->created_at}}</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -202,7 +202,7 @@
                         </tr>
                         @endforeach
                     </tbody>
-                    
+
                 </table> <hr>
                 <table class="derecha">
                     <tbody>
